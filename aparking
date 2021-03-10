@@ -6,7 +6,7 @@ import smtplib
 # Start the session
 session = requests.Session()
 
-# Create the payload
+# Create the payload (login details to the website, in this case aparking)
 payload = {'username':'+xxxxxxxxxxx', 
           'password':'password',
            'login':'Залогиниться'
@@ -26,12 +26,9 @@ while x==True:
         mail = smtplib.SMTP('smtp.gmail.com',587)
         mail.ehlo()
         mail.starttls()
-        mail.login('sender@gmail.com','password') #sender address
-        mail.sendmail('sender@gmail.com','receiver@gmail.com','text of the message') 
+        mail.login('sender@gmail.com','password') #type sender email and password
+        mail.sendmail('sender@gmail.com','receiver@gmail.com','text of the message') #type sender and receiver email and message
         mail.close()
         x=False
-    
-    
-    
     
     time.sleep(60.0 - ((time.time() - starttime) % 60.0))
