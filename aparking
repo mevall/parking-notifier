@@ -1,0 +1,37 @@
+from bs4 import BeautifulSoup
+import requests
+import time
+import smtplib
+
+# Start the session
+session = requests.Session()
+
+# Create the payload
+payload = {'username':'+xxxxxxxxxxx', 
+          'password':'password',
+           'login':'Залогиниться'
+         }
+
+# Post the payload to the site to log in
+s = session.post("https://lk.aparking.kz/", data=payload)
+starttime = time.time()
+
+x=True
+while x==True:
+    s = session.get('https://lk.aparking.kz/?page=subscriptions')
+    soup = BeautifulSoup(s.text, 'html.parser')
+    code=soup.find('form',{'method':'post'})
+    if 'zone="1002"' in str(code.find_all('option')) or 'zone="1004"' in str(code.find_all('option')):
+        content = ("Content to send")
+        mail = smtplib.SMTP('smtp.gmail.com',587)
+        mail.ehlo()
+        mail.starttls()
+        mail.login('sender@gmail.com','password') #sender address
+        mail.sendmail('sender@gmail.com','receiver@gmail.com','text of the message') 
+        mail.close()
+        x=False
+    
+    
+    
+    
+    time.sleep(60.0 - ((time.time() - starttime) % 60.0))
